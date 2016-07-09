@@ -1,0 +1,25 @@
+{% extends "layout_for_edit.html" %}
+
+{% block title %}写文章{% endblock %}
+
+{% block header %}<h1>写文章</h1>{% endblock %}
+
+{% block bottom_right %}
+    {% from "macros.html" import image_button, preview_button, save_button, confirm_button, cancel_button, delete_button %}
+    {{ image_button() }}
+    {{ preview_button() }}
+    {{ save_button(url_for("draft")) }}
+    {{ confirm_button("发布", url_for("posts")) }}
+    {{ cancel_button(url_for("home")) }}
+    {{ delete_button("舍弃草稿") }}
+{% endblock %}
+
+{% block modals %}
+    {{ super() }}
+    {% if session["authenticated"] %}
+        {% from "macros.html" import confirm_modal %}
+        {{ confirm_modal("javascript: clear_draft('" + url_for("clear_draft") + "')", "确定要舍弃草稿中的内容？", "舍弃", "danger") }}
+    {% endif %}
+{% endblock %}
+
+{# vim: set syntax=htmldjango: #}

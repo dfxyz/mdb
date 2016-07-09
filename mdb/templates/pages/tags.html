@@ -1,0 +1,20 @@
+{% extends "layout_for_list.html" %}
+
+{% block title %}标签{% endblock %}
+
+{% block nav %}
+    {% from "macros.html" import nav_links %}
+    {{ nav_links(2) }}
+{% endblock %}
+
+{% block header %}<h1>标签</h1>{% endblock %}
+
+{% block main %}
+    {% for tag in tags %}
+    <a class="tag" href="{{ url_for("tag", tag_name=tag["name"]) }}">
+        <span class="name">{{ tag["name"] }}</span><span class="count">{{ tag["count"] }}</span>
+    </a>
+    {% endfor %}
+{% endblock %}
+
+{# vim: set syntax=htmldjango: #}

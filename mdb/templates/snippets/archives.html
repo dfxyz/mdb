@@ -1,0 +1,23 @@
+{% for title in archives %}
+<div class="archive">
+    <h2>{{ title }}</h2>
+    <ul>
+        {% for entry in archives[title] %}
+        <li>
+            <span class="title"><a href="{{ url_for("post", post_id=entry["_id"]) }}">{{ entry["title"] }}</a></span>
+            {% if entry["tags"] %}
+            <span class="tags">
+                (
+                {% for tag in entry["tags"] %}
+                <a href="{{ url_for("tag", tag_name=tag) }}">{{ tag }}</a>{% if not loop.last %},{% endif %}
+                {% endfor %}
+                )
+            </span>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endfor %}
+
+{# vim: set syntax=htmldjango: #}

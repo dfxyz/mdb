@@ -1,0 +1,19 @@
+{% extends "layout_for_edit.html" %}
+
+{% block title %}修改文章{% endblock %}
+
+{% block header %}
+<h1>修改文章</h1>
+{% endblock %}
+
+{% block bottom_right %}
+    {% from "macros.html" import image_button, preview_button, 
+       save_button, confirm_button, cancel_button %}
+    {{ image_button() }}
+    {{ preview_button() }}
+    {{ save_button(url_for("post", post_id=post["_id"])) }}
+    {{ confirm_button("保存并返回", url_for("post", post_id=post["_id"])) }}
+    {{ cancel_button(url_for("post", post_id=post["_id"])) }}
+{% endblock %}
+
+{# vim: set syntax=htmldjango: #}

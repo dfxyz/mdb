@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}关于{% endblock %}
+
+{% block header %}<h1>关于</h1>{% endblock %}
+
+{% block nav %}
+    {% from "macros.html" import nav_links %}
+    {{ nav_links(4) }}
+{% endblock %}
+
+
+{% block main %}
+<article>
+    {{ post["content"] | markdown | safe }}
+</article>
+{% endblock %}
+
+{% block bottom_right %}
+{{ super() }}
+{% if session["authenticated"] %}
+    {% from "macros.html" import edit_button %}
+    {{ edit_button(url_for("edit_about")) }}
+{% endif %}
+{% endblock %}
+
+{# vim: set syntax=htmldjango: #}

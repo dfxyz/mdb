@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %} - {{ config["SITE_NAME"] }}</title>
+    <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/clipboard.js/1.5.12/clipboard.min.js"></script>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for("static", filename="style.css") }}">
+    <script src="{{ url_for("static", filename="scripts.js") }}"></script>
+    {% block script %}{% endblock %}
+</head>
+<body>
+
+<aside>
+    <div class="avatar">
+        <img class="img-circle" src="{{ url_for("static", filename=config["AVATAR"]) }}">
+    </div>
+    <div class="name">{{ config["SITE_NAME"] }}</div>
+    <div class="description">{{ config["SITE_DESCRIPTION"] }}</div>
+    <hr>
+    <nav>
+    {% block nav %}
+        {# 默认显示无高亮的导航栏链接 #}
+        {% from "macros.html" import nav_links %}
+        {{ nav_links() }}
+    {% endblock %}
+    </nav>
+</aside>
+
+<header>
+{% block header %}{% endblock %}
+</header>
+
+<main>
+{% block main %}{% endblock %}
+</main>
+
+<div class="top_right">
+{% block top_right %}
+    {# 右上区显示登录或注销按钮 #}
+    {% if not session["authenticated"] %}
+        {% from "macros.html" import login_button %}
+        {{ login_button() }}
+    {% else %}
+        {% from "macros.html" import logout_button %}
+        {{ logout_button() }}
+    {% endif %}
+{% endblock %}
+</div>
+
+<div class="bottom_right">
+{% block bottom_right %}
+    {# 右下区显示回到顶部按钮 #}
+    {% from "macros.html" import back_to_top_button %}
+    {{ back_to_top_button() }}
+{% endblock %}
+</div>
+
+{% block modals %}
+    {# 未登录状态下准备登录对话框 #}
+    {% if not session["authenticated"] %}
+        {% from "macros.html" import login_modal %}
+        {{ login_modal() }}
+    {% endif %}
+{% endblock %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+<div class="messages">
+    {% if messages %}
+    <script>
+    $(function() {
+    {% for type, message in messages %}
+        show_message("{{ message }}", "{{ type }}");
+    {% endfor %}
+    });
+    </script>
+    {% endif %}
+</div>
+{% endwith %}
+</body>
+</html>
+
+{# vim: set syntax=htmldjango: #}

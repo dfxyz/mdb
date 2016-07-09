@@ -1,0 +1,16 @@
+{% extends "layout_for_edit.html" %}
+
+{% block title %}修改：关于页面{% endblock %}
+
+{% block header %}<h1>修改：关于页面</h1>{% endblock %}
+
+{% block bottom_right %}
+    {% from "macros.html" import image_button, preview_button, save_button, confirm_button, cancel_button %}
+    {{ image_button() }}
+    {{ preview_button() }}
+    {{ save_button(url_for("about")) }}
+    {{ confirm_button("确认修改", url_for("about")) }}
+    {{ cancel_button(url_for("about")) }}
+{% endblock %}
+
+{# vim: set syntax=htmldjango: #}

@@ -1,0 +1,7 @@
+bson
+Flask
+Flask-Bcrypt
+Flask-PyMongo
+Markdown
+Pillow
+pytz

@@ -1,0 +1,14 @@
+{# 在列表类页面右下角显示写文章、图片上传管理按钮 #}
+
+{% extends "layout.html" %}
+
+{% block bottom_right %}
+    {{ super() }}
+    {% if session["authenticated"] %}
+        {% from "macros.html" import write_button, image_button %}
+        {{ image_button() }}
+        {{ write_button() }}
+    {% endif %}
+{% endblock %}
+ 
+{# vim: set syntax=htmldjango: #}

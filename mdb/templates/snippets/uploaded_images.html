@@ -1,0 +1,14 @@
+{% for image in images %}
+{% with url = url_for("image", filename=image["filename"]) %}
+<div class="uploaded_image">
+    <a class="link" href="{{ url }}" target="_blank">
+        <span class="glyphicon glyphicon-new-window"></span>
+        <span>{{ image["filename"] }}</span>
+    </a>
+    <button type="button" class="copy btn btn-default" data-clipboard-text="![]({{ url }})">复制代码</button>
+    <a class="btn btn-danger" href="{{ url_for("delete_uploaded", image_id=image["_id"]) }}">删除</a>
+</div>
+{% endwith %}
+{% endfor %}
+
+{# vim: set syntax=htmldjango: #}

@@ -1,0 +1,177 @@
+{# 各种界面元素的片段 #}
+
+{% macro nav_links(highlighted=0) %}
+    {# 显示导航栏链接，并可选择高亮显示某一列 #}
+    {% set links = [
+        ("HOME", url_for("home"), "home"),
+        ("TAGS", url_for("tags"), "tags"),
+        ("ARCHIVES", url_for("archives"), "inbox"),
+        ("ABOUT", url_for("about"), "info-sign"),
+    ] %}
+    {% for title, url, icon_name in links %}
+
+    <div{% if loop.index == highlighted %} class="highlighted"{% endif %}>
+        <a href="{{ url }}">
+            <span class="glyphicon glyphicon-{{ icon_name }}"></span>
+            <span>{{ title }}</span>
+        </a>
+    </div>
+    {% endfor %}
+{% endmacro %}
+
+{% macro init_loader(url) %}
+    {# 初始化动态内容加载器 #}
+    <script>
+        loader.target = "{{ url }}";
+        $(function() {
+            loader.load();
+        });
+        $(window).scroll(function() {
+            if (loader.loadable && $(window).scrollTop() >= $(document).height() - $(window).height() - 200) {
+                loader.load();
+            }
+        });
+    </script>
+{% endmacro %}
+
+{% macro login_modal() %}
+    {# 登录对话框 #}
+    <div id="login_modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">登录</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="login_form" action="{{ url_for("login") }}" method="post">
+                        <p><label for="username" >用户名</label></p>
+                        <p><input id="username" name="username" type="text"></p>
+                        <p><label for="password">密码</label></p>
+                        <p><input id="password" name="password" type="password"></p>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="submit" form="login_form" class="btn btn-primary">登录</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro confirm_modal(url, message, button_title, button_type) %}
+    {# 确认对话框 #}
+    <div id="confirm_modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">确认</h4>
+                </div>
+                <div class="modal-body">
+                    <p>{{ message }}</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default" data-dismiss="modal">取消</a>
+                    <a href="{{ url }}" class="btn btn-{{ button_type }}">{{ button_title }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro login_button() %}
+    {# 登录按钮 #}
+    <span data-toggle="tooltip" title="登录">
+        <a class="button_square" data-toggle="modal" data-target="#login_modal">
+            <span class="glyphicon glyphicon-log-in"></span>
+        </a>
+    </span>
+{% endmacro %}
+
+{% macro logout_button() %}
+    {# 注销按钮 #}
+    <a class="button_square" href="{{ url_for("logout") }}" data-toggle="tooltip" title="注销">
+        <span class="glyphicon glyphicon-log-out"></span>
+    </a>
+{% endmacro %}
+
+{% macro back_to_top_button() %}
+    {# 回到顶部按钮 #}
+    <a id="back_to_top_button" class="button_square" href="#" data-toggle="tooltip" title="回到顶部">
+        <span class="glyphicon glyphicon-menu-up"></span>
+    </a>
+{% endmacro %}
+
+{% macro write_button() %}
+    {# 写文章按钮 #}
+    <a class="button_square" href="{{ url_for("draft") }}" data-toggle="tooltip" title="写文章">
+        <span class="glyphicon glyphicon-pencil"></span>
+    </a>
+{% endmacro %}
+
+{% macro edit_button(url) %}
+    {# 修改按钮 #}
+    <a class="button_square" href="{{ url }}" data-toggle="tooltip" title="修改">
+        <span class="glyphicon glyphicon-edit"></span>
+    </a>
+{% endmacro %}
+
+{% macro delete_button(title) %}
+    {# 删除按钮 #}
+    <span data-toggle="tooltip" title="{{ title }}">
+        <a class="button_square" href="#" data-toggle="modal" data-target="#confirm_modal">
+            <span class="glyphicon glyphicon-trash"></span>
+        </a>
+    </span>
+{% endmacro %}
+
+{% macro image_button() %}
+    {# 管理已上传的图片按钮 #}
+    <a class="button_square" href="{{ url_for("uploaded") }}" target="_blank"
+            data-toggle="tooltip" title="管理已上传的图片">
+        <span class="glyphicon glyphicon-picture"></span>
+    </a>
+{% endmacro %}
+
+{% macro upload_button() %}
+    {# 上传按钮 #}
+    <a id="upload_button" class="button_square" data-toggle="tooltip" title="上传图片">
+        <span class="glyphicon glyphicon-plus"></span>
+    </a>
+{% endmacro %}
+
+{% macro preview_button() %}
+    {# 预览按钮 #}
+    <button class="button_square" type="submit" form="edit_form"
+            formaction="{{ url_for("preview") }}" formtarget="_blank"
+            data-toggle="tooltip" title="预览">
+        <span class="glyphicon glyphicon-eye-open"></span>
+    </button>
+{% endmacro %}
+
+{% macro save_button(url) %}
+    {# 保存修改按钮 #}
+    <button class="button_square" type="button" onclick="async_save('{{ url }}')"
+            data-toggle="tooltip" title="保存修改">
+        <span class="glyphicon glyphicon-floppy-disk"></span>
+    </button>
+{% endmacro %}
+
+{% macro confirm_button(title, url) %}
+    {# 确认按钮 #}
+    <button class="button_square" type="submit" form="edit_form" formaction="{{ url }}"
+            data-toggle="tooltip" title="{{ title }}">
+        <span class="glyphicon glyphicon-ok"></span>
+    </button>
+{% endmacro %}
+
+{% macro cancel_button(url) %}
+    {# 取消按钮 #}
+    <a class="button_square" href="{{ url }}" data-toggle="tooltip" title="取消">
+        <span class="glyphicon glyphicon-remove"></span>
+    </a>
+{% endmacro %}
+
+{# vim: set syntax=htmldjango: #}

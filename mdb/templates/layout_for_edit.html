@@ -1,0 +1,26 @@
+{# 用于编辑页面 #}
+
+{% extends "layout.html" %}
+
+{% block main %}
+    <form id="edit_form" method="post">
+    {% if not content_only %}
+        <p><label for="title">标题</label></p>
+        <p><input id="title" name="title" type="text" value="{{ post["title"] }}"></p>
+    {% endif %}
+        <p><label for="content">内容</label></p>
+        <textarea id="content" name="content" rows="{% if content_only %}18{% else %}12{% endif %}">{{ post["content"] }}</textarea>
+    {% if not content_only %}
+        <p><label for="tags">标签</label></p>
+        <p><input id="tags" name="tags" type="text" value="{{ post["tags"] }}"
+                placeholder="使用半角逗号分隔多个标签"></p>
+    {% endif %}
+    </form>
+{% endblock %}
+
+{# 不显示右上区按钮、回到顶部按钮且不准备登录对话框 #}
+{% block top_right %}{% endblock %}
+{% block bottom_right %}{% endblock %}
+{% block modals %}{% endblock %}
+
+{# vim: set syntax=htmldjango: #}

@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}预览{% if title %}：{{ title }}{% endif %}{% endblock %}
+
+{% block header %}<h1>预览{% if title %}：{{ title }}{% endif %}</h1>{% endblock %}
+
+{% block main %}
+<article>
+    {{ content | markdown | safe }}
+</article>
+{% endblock %}
+
+{% block top_right %}{% endblock %}
+{% block modals %}{% endblock %}
+
+{# vim: set syntax=htmldjango: #}

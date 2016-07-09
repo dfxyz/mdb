@@ -1,0 +1,36 @@
+{% if prepend_hr and entries %}
+<hr class="dashed">
+{% endif %}
+{% for entry in entries %}
+<div class="entry">
+    <div class="text">
+        <div class="metadata">
+            <span class="glyphicon glyphicon-calendar"></span>
+            <span class="metadata_value">{{ entry["_id"].generation_time | date }}</span>
+        </div>
+        <h2 class="title"><a href="{{ url_for("post", post_id=entry["_id"]) }}">{{ entry["title"] }}</a></h2>
+        <div class="metadata">
+            <span class="glyphicon glyphicon-tag"></span>
+            {% if entry["tags"] %}
+            {% for tag in entry["tags"] %}
+            <a href="{{ url_for("tag", tag_name=tag) }}">{{ tag }}</a>{% if not loop.last %},{% endif %}
+            {% endfor %}
+            {% else %}
+            <i>暂无标签</i>
+            {% endif %}
+        </div>
+    </div>
+    <div class="image">
+        {% if entry["thumbnail"] %}
+        <a href="{{ url_for("post", post_id=entry["_id"]) }}">
+            <img src="{{ url_for("image", filename=entry["thumbnail"]) }}">
+        </a>
+        {% endif %}
+    </div>
+</div>
+{% if not loop.last %}
+<hr class="dashed">
+{% endif %}
+{% endfor %}
+
+{# vim: set syntax=htmldjango: #}

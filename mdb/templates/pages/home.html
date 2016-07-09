@@ -1,0 +1,17 @@
+{% extends "layout_for_list.html" %}
+
+{% block title %}最新文章{% endblock %}
+
+{% block nav %}
+    {% from "macros.html" import nav_links %}
+    {{ nav_links(1) }}
+{% endblock %}
+
+{% block header %}<h1>最新文章</h1>{% endblock %}
+
+{% block main %}
+    {% from "macros.html" import init_loader %}
+    {{ init_loader(url_for("posts")) }}
+{% endblock %}
+
+{# vim: set syntax=htmldjango: #}

@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}已上传的图片{% endblock %}
+
+{% block header %}<h1>已上传的图片</h1>{% endblock %}
+
+{% block main %}
+    <script>
+        var clipboard = new Clipboard(".copy");
+    </script>
+    {% from "macros.html" import init_loader %}
+    {{ init_loader(url_for("uploaded")) }}
+    <form id="upload_form" enctype="multipart/form-data" action="{{ url_for("uploaded") }}" method="post">
+        <input multiple type="file" name="images" accept="image/jpeg, image/png" style="display: none">
+    </form>
+{% endblock %}
+
+{% block top_right %}{% endblock %}
+
+{% block bottom_right %}
+    {{ super() }}
+    {% from "macros.html" import upload_button %}
+    {{ upload_button() }}
+{% endblock %}
+
+{% block modals %}{% endblock %}
+
+{# vim: set syntax=htmldjango: #}

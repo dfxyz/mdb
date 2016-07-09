@@ -1,0 +1,14 @@
+{% extends "layout_for_list.html" %}
+
+{% block title %}包含标签 "{{ tag_name }}" 的文章{% endblock %}
+
+{% block header %}
+    <h1>包含标签 "{{ tag_name }}" 的文章</h1>
+{% endblock %}
+
+{% block main %}
+    {% from "macros.html" import init_loader %}
+    {{ init_loader(url_for("tag", tag_name=tag_name)) }}
+{% endblock %}
+
+{# vim: set syntax=htmldjango: #}
