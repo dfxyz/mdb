@@ -14,7 +14,8 @@ def get_id(name):
 
 def get_all():
     """返回所有使用量大于0的标签列表"""
-    return collection.find({'count': {'$gt': 0}}).sort('count', -1)
+    return collection.find({'count': {'$gt': 0}}) \
+                     .sort([('count', -1), ('name', 1)])
 
 
 def update_count(ids, delta):
