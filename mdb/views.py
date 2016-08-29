@@ -63,7 +63,7 @@ def posts():
                           request.form['tags'])
         if r.inserted_id:
             flash('文章已发布', 'success')
-            return redirect(url_for('home'))
+            return redirect(url_for('post', post_id=r.inserted_id))
         flash('文章发布失败', 'danger')
         return redirect(url_for('draft'))
     if request.method == 'POST':
